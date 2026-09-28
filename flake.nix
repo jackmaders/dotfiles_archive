@@ -9,11 +9,16 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
-    let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
-      mkHome = profileModule: home-manager.lib.homeManagerConfiguration {
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    ...
+  }: let
+    system = "x86_64-linux";
+    pkgs = nixpkgs.legacyPackages.${system};
+    mkHome = profileModule:
+      home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home/default.nix
@@ -24,10 +29,17 @@
           }
         ];
       };
-    in {
-      homeConfigurations = {
-        "jackw-personal" = mkHome ./home/profiles/personal.nix;
-        "jackw-work"     = mkHome ./home/profiles/work.nix;
-      };
+  in {
+    formatter.${system} = pkgs.writeShellScriptBin "alejandra" ''
+      if [ "$#" -eq 0 ]; then
+        exec ${pkgs.alejandra}/bin/alejandra .
+      else
+        exec ${pkgs.alejandra}/bin/alejandra "$@"
+      fi
+    '';
+    homeConfigurations = {
+      "jackw-personal" = mkHome ./home/profiles/personal.nix;
+      "jackw-work" = mkHome ./home/profiles/work.nix;
     };
+  };
 }

@@ -1,6 +1,4 @@
-{ pkgs, ... }:
-
-{
+{pkgs, ...}: {
   imports = [
     ./git.nix
     ./zsh.nix
@@ -20,6 +18,9 @@
     eza
     bat
     zoxide
+    bun
+    fnm
+    pnpm
   ];
 
   # Basic program hooks
