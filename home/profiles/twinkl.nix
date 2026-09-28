@@ -10,7 +10,10 @@
     email = "jack.maders@twinkl.co.uk";
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   home.packages = with pkgs; [
     aws-vault
+    claude-code
   ];
 }
