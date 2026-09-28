@@ -21,6 +21,13 @@
         $HOME/dev/github.com \
         $HOME/dev/vaults
     '';
+
+    installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [ ! -x "$HOME/.local/bin/herdr" ]; then
+        run mkdir -p "$HOME/.local/bin"
+        run ${pkgs.curl}/bin/curl -fsSL https://herdr.dev/install.sh | run ${pkgs.bash}/bin/bash
+      fi
+    '';
   };
 
   home.packages = with pkgs; [
@@ -31,7 +38,6 @@
     obsidian
     pnpm
     xh
-    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   programs.bat.enable = true;
