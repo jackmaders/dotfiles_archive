@@ -6,8 +6,8 @@ bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
 # Filter history
-bindkey '^[[A' history-beginning-search-backward
-bindkey '^[[B' history-beginning-search-forward
+bindkey '^[OA' history-beginning-search-backward
+bindkey '^[OB' history-beginning-search-forward
 
 # Prevent multi line suggestions
 ZSH_AUTOSUGGEST_HISTORY_IGNORE="*$'\n'*"
