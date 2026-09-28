@@ -24,70 +24,40 @@ Declarative system and user environment managed with [Nix Flakes](https://nixos.
 
 ---
 
-## Fresh Machine Setup (NixOS-WSL)
+Run the respective block directly in **Windows PowerShell** to fully provision the machine from zero (provisions system, creates `jackw`, configures default user/Zsh, applies Home Manager, and launches the shell):
 
-When installing a fresh NixOS-WSL instance, the initial session defaults to the `nixos` user with Bash:
+### Twinkl (`NixOS_Twinkl`)
 
-```
-[nixos@nixos:/mnt/c/Users/...]$
-```
-
-You can run the entire setup directly from **Windows PowerShell** without opening or swapping between interactive WSL shells.
-
-### Method 1: 100% Windows PowerShell (Zero Shell Swapping)
-
-Run these 3 commands directly in **PowerShell**:
-
-#### 1. Provision System & User from GitHub
 ```powershell
-wsl -d NixOS -u root -- nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
-```
+# 1. Provision NixOS system, create 'jackw', enable Zsh, configure WSL
+wsl -d NixOS_Twinkl -u root -- nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
 
-#### 2. Restart WSL (to activate `jackw` as default user)
-```powershell
+# 2. Restart WSL to activate 'jackw' as default user
 wsl --shutdown
-```
 
-#### 3. Provision Home Manager Profile
-- **For Work (Twinkl):**
-  ```powershell
-  wsl -d NixOS -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
-  ```
-- **For Personal:**
-  ```powershell
-  wsl -d NixOS -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
-  ```
+# 3. Provision Twinkl Home Manager profile
+wsl -d NixOS_Twinkl -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
 
-That's it! Launch WSL:
-```powershell
-wsl -d NixOS
+# 4. Launch your fresh environment
+wsl -d NixOS_Twinkl
 ```
-You will enter directly into `jackw` with Zsh, your complete prompt, aliases, and tools ready.
 
 ---
 
-### Method 2: From Inside the WSL Shell
+### Personal (`NixOS_Personal`)
 
-If you are already inside the initial `[nixos@nixos:...]$` shell:
-
-```bash
-# 1. Apply system configuration
-sudo nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
-```
-
-In Windows PowerShell:
 ```powershell
+# 1. Provision NixOS system, create 'jackw', enable Zsh, configure WSL
+wsl -d NixOS_Personal -u root -- nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
+
+# 2. Restart WSL to activate 'jackw' as default user
 wsl --shutdown
-wsl -d NixOS
-```
 
-Then inside `jackw`:
-```bash
-# For Personal:
-nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
+# 3. Provision Personal Home Manager profile
+wsl -d NixOS_Personal -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
 
-# Or For Work (Twinkl):
-nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
+# 4. Launch your fresh environment
+wsl -d NixOS_Personal
 ```
 
 ---
