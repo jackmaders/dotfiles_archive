@@ -4,27 +4,25 @@
   imports = [
     ./git.nix
     ./zsh.nix
+    ./starship.nix
   ];
 
-  home.stateVersion = "24.05"; # Match your installed NixOS/HM version
+  home.stateVersion = "24.05";
 
   # Core Rust-based userland replacements
   home.packages = with pkgs; [
-    # Core utilities
-    ripgrep   # rg -> modern grep
-    fd        # modern find
-    dust      # du -> visual disk usage
-    xh        # curl/httpie replacement
-    just      # make replacement
-    delta     # git diff pager
-
-    # Navigation & file viewing
-    eza       # ls replacement
-    bat       # cat replacement
-    zoxide    # smart cd
+    ripgrep
+    fd
+    dust
+    xh
+    just
+    delta
+    eza
+    bat
+    zoxide
   ];
 
-  # Basic program hooks without custom styling
+  # Basic program hooks
   programs.bat.enable = true;
   programs.ripgrep.enable = true;
   programs.zoxide.enable = true;

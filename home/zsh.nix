@@ -20,13 +20,13 @@
 
     # Essential aliases mapped to our fast Rust utilities
     shellAliases = {
-      # ls -> eza
-      ls = "eza";
-      ll = "eza -l --git";
-      la = "eza -la --git";
-      tree = "eza --tree";
+      # ls -> eza with icons
+      ls = "eza --icons";
+      ll = "eza -l --git --icons";
+      la = "eza -la --git --icons";
+      tree = "eza --tree --icons";
 
-      # cat -> bat (plain mode by default to avoid interfering with raw outputs)
+      # cat -> bat (plain mode)
       cat = "bat -p";
 
       # grep/find upgrades
@@ -38,8 +38,7 @@
       "..." = "cd ../..";
     };
 
-    # Case-insensitive tab completion & substring navigation
-    initExtra = ''
+    initContent = ''
       # Case-insensitive tab completion
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
       
@@ -49,13 +48,11 @@
     '';
   };
 
-  # FZF integration for shell navigation and reverse history search
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
   };
 
-  # Enable zoxide integration for Zsh (replaces 'cd' with 'z')
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
