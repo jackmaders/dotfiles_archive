@@ -30,7 +30,6 @@
   programs.bat.enable = true;
   programs.ripgrep.enable = true;
   programs.fd.enable = true;
-  programs.fd.antigravity-cli  = true;
 
   home.sessionVariables = {
     BUN_INSTALL = "$HOME/.bun";

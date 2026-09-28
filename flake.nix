@@ -7,6 +7,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    antigravity.url = "github:Hy4ri/antigravity-flake";
   };
 
   outputs = {
