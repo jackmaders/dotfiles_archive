@@ -4,6 +4,7 @@
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    enableTransience = true;
 
     # Pure Preset implementation in Starship
     settings = {

@@ -7,7 +7,6 @@
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    # Smart, clean history settings
     history = {
       size = 50000;
       save = 50000;
@@ -18,27 +17,22 @@
       expireDuplicatesFirst = true;
     };
 
-    # Essential aliases mapped to our fast Rust utilities
     shellAliases = {
-      # ls -> eza with icons
       ls = "eza --icons";
       ll = "eza -l --git --icons";
       la = "eza -la --git --icons";
       tree = "eza --tree --icons";
-
-      # cat -> bat (plain mode)
       cat = "bat -p";
-
-      # grep/find upgrades
       grep = "rg";
       find = "fd";
-
-      # Navigation shortcuts
       ".." = "cd ..";
       "..." = "cd ../..";
     };
 
     initContent = ''
+      # Allow inline comments when pasting scripts/commands
+      setopt interactivecomments
+
       # Case-insensitive tab completion
       zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
       

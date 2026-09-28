@@ -13,16 +13,21 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      homeConfigurations."jackw" = home-manager.lib.homeManagerConfiguration {
+      mkHome = profileModule: home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
         modules = [
           ./home/default.nix
+          profileModule
           {
             home.username = "jackw";
             home.homeDirectory = "/home/jackw";
           }
         ];
+      };
+    in {
+      homeConfigurations = {
+        "jackw-personal" = mkHome ./home/profiles/personal.nix;
+        "jackw-work"     = mkHome ./home/profiles/work.nix;
       };
     };
 }
