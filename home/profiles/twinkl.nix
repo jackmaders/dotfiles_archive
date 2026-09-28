@@ -3,7 +3,7 @@
     DOTFILES_PROFILE = "twinkl";
   };
 
-  programs.starship.settings = builtins.fromTOML (builtins.readFile ../starship/pure.toml);
+  programs.starship.settings = builtins.fromTOML (builtins.readFile ../starship/twinkl.toml);
 
   programs.git.settings.user = {
     name = "Jack Maders";
