@@ -24,21 +24,24 @@ Declarative system and user environment managed with [Nix Flakes](https://nixos.
 
 ---
 
-Run the respective block directly in **Windows PowerShell** to fully provision the machine from zero (provisions system, creates `jackw`, configures default user/Zsh, applies Home Manager, and launches the shell):
+Run the respective block directly in **Windows PowerShell** to fully provision the machine from zero (imports downloaded `nixos.wsl`, provisions system, creates `jackw`, configures default user/Zsh, applies Home Manager, and launches the shell):
 
 ### Twinkl (`NixOS_Twinkl`)
 
 ```powershell
-# 1. Provision NixOS system, create 'jackw', enable Zsh, configure WSL
+# 1. Import downloaded nixos.wsl image
+wsl --import "NixOS_Twinkl" "C:\WSL\NixOS_Twinkl" "$env:USERPROFILE\Downloads\nixos.wsl"
+
+# 2. Provision NixOS system, create 'jackw', enable Zsh, configure WSL
 wsl -d NixOS_Twinkl -u root -- nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
 
-# 2. Restart WSL to activate 'jackw' as default user
+# 3. Restart WSL to activate 'jackw' as default user
 wsl --shutdown
 
-# 3. Provision Twinkl Home Manager profile
+# 4. Provision Twinkl Home Manager profile
 wsl -d NixOS_Twinkl -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
 
-# 4. Launch your fresh environment
+# 5. Launch your fresh environment
 wsl -d NixOS_Twinkl
 ```
 
@@ -47,16 +50,19 @@ wsl -d NixOS_Twinkl
 ### Personal (`NixOS_Personal`)
 
 ```powershell
-# 1. Provision NixOS system, create 'jackw', enable Zsh, configure WSL
+# 1. Import downloaded nixos.wsl image
+wsl --import "NixOS_Personal" "C:\WSL\NixOS_Personal" "$env:USERPROFILE\Downloads\nixos.wsl"
+
+# 2. Provision NixOS system, create 'jackw', enable Zsh, configure WSL
 wsl -d NixOS_Personal -u root -- nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
 
-# 2. Restart WSL to activate 'jackw' as default user
+# 3. Restart WSL to activate 'jackw' as default user
 wsl --shutdown
 
-# 3. Provision Personal Home Manager profile
+# 4. Provision Personal Home Manager profile
 wsl -d NixOS_Personal -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
 
-# 4. Launch your fresh environment
+# 5. Launch your fresh environment
 wsl -d NixOS_Personal
 ```
 
