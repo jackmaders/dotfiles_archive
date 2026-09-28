@@ -14,4 +14,4 @@ bindkey '^[OB' history-beginning-search-forward
 eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Local Secrets File
-[ -f ~/.zsh_local ] && source ~/.zsh_local
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local
