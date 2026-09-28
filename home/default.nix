@@ -18,7 +18,7 @@
         $HOME/dev/twinkl \
         $HOME/dev/sandbox \
         $HOME/dev/github.com \
-        $HOME/notes
+        $HOME/dev/notes
     '';
   };
 
