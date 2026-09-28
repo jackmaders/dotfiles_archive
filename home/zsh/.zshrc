@@ -30,11 +30,20 @@ _dotfiles_dir() {
   fi
 }
 
-# Rebuild and activate Home Manager configuration
-rebuild-home() {
-  local dir="$(_dotfiles_dir)"
+# Apply current local config and home manager state (run from repo root or anywhere)
+nixos-apply-local() {
+  local dir
+  # If currently inside a repo with a flake.nix, use current directory; otherwise use standard dotfiles dir
+  if [ -f "./flake.nix" ]; then
+    dir="."
+  else
+    dir="$(_dotfiles_dir)"
+  fi
+
   local profile="${1:-${DOTFILES_PROFILE:-personal}}"
-  echo "==> Rebuilding Home Manager ($profile)..."
+  echo "==> Applying local NixOS system configuration..."
+  sudo nixos-rebuild switch --flake "$dir#nixos" && \
+  echo "==> Applying local Home Manager configuration ($profile)..." && \
   if command -v home-manager >/dev/null 2>&1; then
     home-manager switch --flake "$dir#$profile"
   else
@@ -42,27 +51,12 @@ rebuild-home() {
   fi
 }
 
-# Rebuild and activate NixOS system configuration
-rebuild-system() {
-  local dir="$(_dotfiles_dir)"
-  echo "==> Rebuilding NixOS system..."
-  sudo nixos-rebuild switch --flake "$dir#nixos"
-}
-
-# Refresh both NixOS system and Home Manager configuration
-refresh-config() {
+# Fetch and apply the latest config and home manager state available in git
+nixos-apply-remote() {
   local dir="$(_dotfiles_dir)"
   local profile="${1:-${DOTFILES_PROFILE:-personal}}"
-  echo "==> Refreshing NixOS system & Home Manager ($profile)..."
-  rebuild-system && rebuild-home "$profile"
-}
-
-# Pull latest dotfiles and refresh both NixOS and Home Manager
-update-config() {
-  local dir="$(_dotfiles_dir)"
-  local profile="${1:-${DOTFILES_PROFILE:-personal}}"
-  echo "==> Pulling latest changes from Git..."
-  git -C "$dir" pull && refresh-config "$profile"
+  echo "==> Fetching latest changes from Git..."
+  git -C "$dir" pull && nixos-apply-local "$profile"
 }
 
 # Local Secrets File

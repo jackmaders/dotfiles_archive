@@ -62,34 +62,27 @@ wsl -d NixOS_Personal
 
 ---
 
-## Quick Commands
-
-The environment includes clear, self-explanatory commands to refresh your system and user configurations from any directory:
+## Commands
 
 | Command | Action | Description |
 |---|---|---|
-| **`refresh-config`** | **Refresh Everything** | Rebuilds and activates **both** NixOS system configuration and your active Home Manager profile (`personal` or `twinkl`). |
-| **`update-config`** | **Pull & Refresh Everything** | Runs `git pull` on your dotfiles and immediately runs `refresh-config` to apply all changes. |
-| `rebuild-home` | Refresh User Only | Rebuilds only the Home Manager environment. |
-| `rebuild-system` | Refresh System Only | Rebuilds only the NixOS system environment (`sudo nixos-rebuild switch`). |
-
-> [!TIP]
-> You can also specify an explicit profile if needed (e.g. `refresh-config twinkl` or `rebuild-home personal`). By default, it automatically uses the machine's active profile.
+| **`nixos-apply-local [profile]`** | Apply Local State | Applies the current local config and Home Manager state. Useful for testing changes locally without syncing to Git. Defaults to current profile (`personal` or `twinkl`). |
+| **`nixos-apply-remote [profile]`** | Fetch & Apply Remote | Fetches (`git pull`) and applies the current config and Home Manager state available in Git. |
 
 ---
 
 ## Daily Workflow & Maintenance
 
-### When Making Local Changes
-After editing files in your dotfiles repository:
+### When Making or Testing Local Changes
+Run in the repository root (or from any directory) to test your edits:
 ```bash
-refresh-config
+nixos-apply-local
 ```
 
-### When Pulling Changes on Another Machine
-To pull down the latest commits and apply both system and user configurations in one step:
+### When Pulling Changes from Git
+To fetch latest Git changes and re-apply both NixOS and Home Manager:
 ```bash
-update-config
+nixos-apply-remote
 ```
 
 ### Formatting Nix Code
