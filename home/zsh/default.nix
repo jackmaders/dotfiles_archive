@@ -43,6 +43,9 @@
       cd = "z";
 
       tree = "eza --tree --icons";
+
+      reload = "exec zsh";
+      dotfiles = "cd $([ -d $HOME/dev/dotfiles ] && echo $HOME/dev/dotfiles || echo $HOME/dotfiles)";
     };
 
     initContent = builtins.readFile ./.zshrc;

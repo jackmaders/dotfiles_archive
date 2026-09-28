@@ -3,6 +3,10 @@
   inputs,
   ...
 }: {
+  home.sessionVariables = {
+    DOTFILES_PROFILE = "personal";
+  };
+
   programs.git.settings.user = {
     name = "Jack Maders";
     email = "jackwmaders@gmail.com";

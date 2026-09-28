@@ -34,6 +34,7 @@
   programs.bat.enable = true;
   programs.ripgrep.enable = true;
   programs.fd.enable = true;
+  programs.home-manager.enable = true;
 
   programs.bash = {
     enable = true;

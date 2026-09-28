@@ -90,26 +90,51 @@ You will automatically log in as **`jackw`** with **Zsh**, Starship prompt, and 
 
 ---
 
+## Quick Commands & Aliases
+
+The environment includes built-in commands to quickly apply or update configurations from any directory:
+
+| Command | Action | Description |
+|---|---|---|
+| `hms` | **H**ome **M**anager **S**witch | Rebuilds and applies Home Manager (automatically uses active profile: `personal` or `twinkl`) |
+| `hmu` | **H**ome **M**anager **U**pdate | Runs `git pull` on your dotfiles and applies Home Manager in one step |
+| `nrs` | **N**ixOS **R**ebuild **S**witch | Rebuilds and activates NixOS system configuration (`.#nixos`) |
+| `nru` | **N**ixOS **R**ebuild **U**pdate | Runs `git pull` on your dotfiles and rebuilds NixOS system in one step |
+| `reload` | Reload Shell | Reloads the current Zsh session (`exec zsh`) |
+| `dotfiles` | Navigate | `cd` directly into the dotfiles repository |
+
+> [!TIP]
+> You can also specify an explicit profile with `hms` or `hmu` if desired, e.g.:
+> ```bash
+> hms twinkl
+> # or
+> hms personal
+> ```
+
+---
+
 ## Daily Workflow & Maintenance
 
 ### Applying Updates After `git pull`
 
-#### User Configuration (Dotfiles, Aliases, Tools)
+You can use the quick commands above from anywhere:
 ```bash
-cd ~/dev/dotfiles
-git pull
+# Pull and apply user dotfiles:
+hmu
 
-# Personal profile:
-nix run github:nix-community/home-manager -- switch --flake ".#personal"
-
-# Work profile:
-nix run github:nix-community/home-manager -- switch --flake ".#twinkl"
+# Pull and apply system configuration:
+nru
 ```
 
-#### System Configuration (WSL, System Packages, Users)
+Or run the underlying commands manually:
 ```bash
 cd ~/dev/dotfiles
 git pull
+
+# User configuration:
+home-manager switch --flake ".#personal"   # or ".#twinkl"
+
+# System configuration:
 sudo nixos-rebuild switch --flake .#nixos
 ```
 
