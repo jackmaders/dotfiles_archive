@@ -32,53 +32,46 @@ When installing a fresh NixOS-WSL instance, the initial session defaults to the 
 [nixos@nixos:/mnt/c/Users/...]$
 ```
 
-Follow these steps to configure the system, create the `jackw` user, and load the environment.
+### 1. Rebuild System Configuration
 
-### 1. Clone the Repository
+A fresh NixOS-WSL image only comes with minimal base packages (`git` is not yet installed).
 
-Inside the initial `nixos` WSL shell:
+#### Option A: Apply Flake Directly from GitHub (Recommended)
+You do not even need to clone the repo or install `git` first. You can rebuild the system directly from GitHub:
 
 ```bash
-git clone https://github.com/jackmaders/dotfiles.git ~/dotfiles
-cd ~/dotfiles
+sudo nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
 ```
 
-### 2. Apply System Configuration
-
-Build and activate the NixOS system configuration:
+#### Option B: Clone Locally Using a Temporary Shell
+If you prefer to clone the repository to disk first:
 
 ```bash
+# Enter a temporary shell with git available:
+nix-shell -p git
+
+# Clone and switch:
+git clone https://github.com/jackmaders/dotfiles.git ~/dotfiles
+cd ~/dotfiles
 sudo nixos-rebuild switch --flake .#nixos
+exit
 ```
 
 This step:
+- Installs `git`, `curl`, `wget`, `vim`, and core utilities.
 - Configures NixOS-WSL and sets `jackw` as the default user in `/etc/wsl.conf`.
 - Creates the `jackw` user account with passwordless `sudo` (`wheel` group).
 - Enables Zsh system-wide and sets it as the default login shell.
 
-### 3. Apply Home Manager Profile
+### 2. Restart WSL From Windows
 
-Apply the desired user configuration profile for `jackw`:
-
-#### For Personal Machine:
-```bash
-nix run github:nix-community/home-manager -- switch --flake ".#personal"
-```
-
-#### For Work Machine (Twinkl):
-```bash
-nix run github:nix-community/home-manager -- switch --flake ".#twinkl"
-```
-
-### 4. Restart WSL From Windows
-
-WSL only re-reads `/etc/wsl.conf` after a full shutdown. Open **Windows PowerShell** or **Command Prompt** and run:
+WSL only re-reads `/etc/wsl.conf` after a full shutdown. In **Windows PowerShell** or **Command Prompt**:
 
 ```powershell
 wsl.exe --shutdown
 ```
 
-### 5. Launch NixOS
+### 3. Launch NixOS (Now as `jackw`)
 
 Launch WSL from PowerShell or Windows Terminal:
 
@@ -86,7 +79,25 @@ Launch WSL from PowerShell or Windows Terminal:
 wsl -d NixOS
 ```
 
-You will automatically log in as **`jackw`** with **Zsh**, Starship prompt, and all CLI tools ready.
+You will automatically log in as **`jackw`** with **Zsh** and `git` already installed!
+
+### 4. Clone Dotfiles & Apply Home Manager
+
+Inside your new `jackw` session:
+
+```bash
+# Clone to your standard dev directory:
+git clone https://github.com/jackmaders/dotfiles.git ~/dev/dotfiles
+cd ~/dev/dotfiles
+
+# For Personal Machine:
+nix run github:nix-community/home-manager -- switch --flake ".#personal"
+
+# Or For Work Machine (Twinkl):
+nix run github:nix-community/home-manager -- switch --flake ".#twinkl"
+```
+
+Once applied, `refresh-config` and `update-config` are immediately available in your shell!
 
 ---
 
