@@ -43,6 +43,7 @@
       cd = "z";
 
       tree = "eza --tree --icons";
+      godot = "godot4-mono --display-driver x11 --rendering-driver opengl3 --single-window";
     };
 
     initContent = builtins.readFile ./.zshrc;

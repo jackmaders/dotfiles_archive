@@ -58,6 +58,8 @@
   home.sessionVariables = {
     BUN_INSTALL = "$HOME/.bun";
     PNPM_HOME = "$HOME/.local/share/pnpm";
+    LIBGL_ALWAYS_SOFTWARE = "1";
+    DISPLAY = ":0";
   };
 
   home.sessionPath = [
