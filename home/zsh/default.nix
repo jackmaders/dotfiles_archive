@@ -67,4 +67,5 @@
     enable = true;
     enableZshIntegration = true;
   };
+
 }
