@@ -14,12 +14,19 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 
 # Helper function to find dotfiles repo location
 _dotfiles_dir() {
-  if [ -d "$HOME/dev/dotfiles" ]; then
-    echo "$HOME/dev/dotfiles"
+  local target="$HOME/dev/dotfiles"
+  if [ ! -d "$target" ] && [ ! -d "$HOME/dotfiles" ]; then
+    echo "==> Cloning dotfiles to $target..."
+    mkdir -p "$HOME/dev"
+    git clone https://github.com/jackmaders/dotfiles.git "$target"
+  fi
+
+  if [ -d "$target" ]; then
+    echo "$target"
   elif [ -d "$HOME/dotfiles" ]; then
     echo "$HOME/dotfiles"
   else
-    echo "$HOME/dev/dotfiles"
+    echo "$target"
   fi
 }
 

@@ -81,23 +81,21 @@ wsl -d NixOS
 
 You will automatically log in as **`jackw`** with **Zsh** and `git` already installed!
 
-### 4. Clone Dotfiles & Apply Home Manager
+### 4. Apply Home Manager (No Cloning Required!)
 
-Inside your new `jackw` session:
+Inside your new `jackw` session, you can apply your user profile directly from GitHub without cloning:
 
+#### For Personal Machine:
 ```bash
-# Clone to your standard dev directory:
-git clone https://github.com/jackmaders/dotfiles.git ~/dev/dotfiles
-cd ~/dev/dotfiles
-
-# For Personal Machine:
-nix run github:nix-community/home-manager -- switch --flake ".#personal"
-
-# Or For Work Machine (Twinkl):
-nix run github:nix-community/home-manager -- switch --flake ".#twinkl"
+nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
 ```
 
-Once applied, `refresh-config` and `update-config` are immediately available in your shell!
+#### For Work Machine (Twinkl):
+```bash
+nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
+```
+
+Once applied, `refresh-config` and `update-config` are immediately available in your shell. (The first time you run `refresh-config` or `update-config`, it will automatically clone the repository to `~/dev/dotfiles` for you!)
 
 ---
 
