@@ -5,6 +5,10 @@ setopt interactivecomments
 bindkey '^[[1;5D' backward-word
 bindkey '^[[1;5C' forward-word
 
+# Filter history
+bindkey '^[[A' history-beginning-search-backward
+bindkey '^[[B' history-beginning-search-forward
+
 # Fast Node Manager
 eval "$(fnm env --use-on-cd --shell zsh)"
 
