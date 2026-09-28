@@ -16,10 +16,10 @@
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
       }
       {
-          name = "zsh-completions";
-          src = pkgs.zsh-completions;
-          file = "share/zsh-completions/zsh-completions.zsh";
-        }
+        name = "zsh-completions";
+        src = pkgs.zsh-completions;
+        file = "share/zsh-completions/zsh-completions.zsh";
+      }
     ];
 
     history = {
@@ -67,5 +67,4 @@
     enable = true;
     enableZshIntegration = true;
   };
-
 }
