@@ -23,11 +23,11 @@ _dotfiles_dir() {
   fi
 }
 
-# Switch Home Manager configuration (auto-detects personal vs twinkl from $DOTFILES_PROFILE)
-hms() {
+# Rebuild and activate Home Manager configuration
+rebuild-home() {
   local dir="$(_dotfiles_dir)"
   local profile="${1:-${DOTFILES_PROFILE:-personal}}"
-  echo "Switching Home Manager ($profile)..."
+  echo "==> Rebuilding Home Manager ($profile)..."
   if command -v home-manager >/dev/null 2>&1; then
     home-manager switch --flake "$dir#$profile"
   else
@@ -35,26 +35,27 @@ hms() {
   fi
 }
 
-# Pull latest dotfiles and switch Home Manager
-hmu() {
+# Rebuild and activate NixOS system configuration
+rebuild-system() {
   local dir="$(_dotfiles_dir)"
-  local profile="${1:-${DOTFILES_PROFILE:-personal}}"
-  echo "Pulling latest dotfiles..."
-  git -C "$dir" pull && hms "$profile"
-}
-
-# Rebuild NixOS system configuration
-nrs() {
-  local dir="$(_dotfiles_dir)"
-  echo "Rebuilding NixOS system..."
+  echo "==> Rebuilding NixOS system..."
   sudo nixos-rebuild switch --flake "$dir#nixos"
 }
 
-# Pull latest dotfiles and rebuild NixOS system
-nru() {
+# Refresh both NixOS system and Home Manager configuration
+refresh-config() {
   local dir="$(_dotfiles_dir)"
-  echo "Pulling latest dotfiles..."
-  git -C "$dir" pull && nrs
+  local profile="${1:-${DOTFILES_PROFILE:-personal}}"
+  echo "==> Refreshing NixOS system & Home Manager ($profile)..."
+  rebuild-system && rebuild-home "$profile"
+}
+
+# Pull latest dotfiles and refresh both NixOS and Home Manager
+update-config() {
+  local dir="$(_dotfiles_dir)"
+  local profile="${1:-${DOTFILES_PROFILE:-personal}}"
+  echo "==> Pulling latest changes from Git..."
+  git -C "$dir" pull && refresh-config "$profile"
 }
 
 # Local Secrets File

@@ -90,52 +90,34 @@ You will automatically log in as **`jackw`** with **Zsh**, Starship prompt, and 
 
 ---
 
-## Quick Commands & Aliases
+## Quick Commands
 
-The environment includes built-in commands to quickly apply or update configurations from any directory:
+The environment includes clear, self-explanatory commands to refresh your system and user configurations from any directory:
 
 | Command | Action | Description |
 |---|---|---|
-| `hms` | **H**ome **M**anager **S**witch | Rebuilds and applies Home Manager (automatically uses active profile: `personal` or `twinkl`) |
-| `hmu` | **H**ome **M**anager **U**pdate | Runs `git pull` on your dotfiles and applies Home Manager in one step |
-| `nrs` | **N**ixOS **R**ebuild **S**witch | Rebuilds and activates NixOS system configuration (`.#nixos`) |
-| `nru` | **N**ixOS **R**ebuild **U**pdate | Runs `git pull` on your dotfiles and rebuilds NixOS system in one step |
-| `reload` | Reload Shell | Reloads the current Zsh session (`exec zsh`) |
-| `dotfiles` | Navigate | `cd` directly into the dotfiles repository |
+| **`refresh-config`** | **Refresh Everything** | Rebuilds and activates **both** NixOS system configuration and your active Home Manager profile (`personal` or `twinkl`). |
+| **`update-config`** | **Pull & Refresh Everything** | Runs `git pull` on your dotfiles and immediately runs `refresh-config` to apply all changes. |
+| `rebuild-home` | Refresh User Only | Rebuilds only the Home Manager environment. |
+| `rebuild-system` | Refresh System Only | Rebuilds only the NixOS system environment (`sudo nixos-rebuild switch`). |
 
 > [!TIP]
-> You can also specify an explicit profile with `hms` or `hmu` if desired, e.g.:
-> ```bash
-> hms twinkl
-> # or
-> hms personal
-> ```
+> You can also specify an explicit profile if needed (e.g. `refresh-config twinkl` or `rebuild-home personal`). By default, it automatically uses the machine's active profile.
 
 ---
 
 ## Daily Workflow & Maintenance
 
-### Applying Updates After `git pull`
-
-You can use the quick commands above from anywhere:
+### When Making Local Changes
+After editing files in your dotfiles repository:
 ```bash
-# Pull and apply user dotfiles:
-hmu
-
-# Pull and apply system configuration:
-nru
+refresh-config
 ```
 
-Or run the underlying commands manually:
+### When Pulling Changes on Another Machine
+To pull down the latest commits and apply both system and user configurations in one step:
 ```bash
-cd ~/dev/dotfiles
-git pull
-
-# User configuration:
-home-manager switch --flake ".#personal"   # or ".#twinkl"
-
-# System configuration:
-sudo nixos-rebuild switch --flake .#nixos
+update-config
 ```
 
 ### Formatting Nix Code
