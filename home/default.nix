@@ -1,6 +1,7 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }: {
   imports = [
@@ -30,6 +31,7 @@
     obsidian
     pnpm
     xh
+    inputs.herdr.packages.${pkgs.stdenv.hostPlatform.system}.default
   ];
 
   programs.bat.enable = true;
