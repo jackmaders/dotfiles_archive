@@ -1,30 +1,22 @@
 {pkgs, ...}: {
   imports = [
     ./git.nix
-    ./zsh.nix
-    ./starship.nix
+    ./zsh
+    ./starship
   ];
 
   home.stateVersion = "24.05";
 
-  # Core Rust-based userland replacements
   home.packages = with pkgs; [
-    ripgrep
-    fd
-    dust
-    xh
-    just
-    delta
-    eza
-    bat
-    zoxide
     bun
+    dust
     fnm
+    just
     pnpm
+    xh
   ];
 
-  # Basic program hooks
   programs.bat.enable = true;
   programs.ripgrep.enable = true;
-  programs.zoxide.enable = true;
+  programs.fd.enable = true;
 }

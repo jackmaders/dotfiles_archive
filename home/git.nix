@@ -1,12 +1,20 @@
 {pkgs, ...}: {
   programs.git = {
     enable = true;
+
     settings = {
       init.defaultBranch = "main";
       pull.rebase = true;
-      core.pager = "delta";
-      interactive.diffFilter = "delta --color-only";
-      delta.navigate = true;
+    };
+  };
+
+  programs.delta = {
+    enable = true;
+    enableGitIntegration = true;
+    options = {
+      navigate = true;
+      line-numbers = true;
+      side-by-side = false;
     };
   };
 
@@ -14,7 +22,6 @@
     enable = true;
     settings = {
       git_protocol = "ssh";
-      prompt = "enabled";
     };
   };
 }
