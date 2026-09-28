@@ -32,70 +32,63 @@ When installing a fresh NixOS-WSL instance, the initial session defaults to the 
 [nixos@nixos:/mnt/c/Users/...]$
 ```
 
-### 1. Rebuild System Configuration
+You can run the entire setup directly from **Windows PowerShell** without opening or swapping between interactive WSL shells.
 
-A fresh NixOS-WSL image only comes with minimal base packages (`git` is not yet installed).
+### Method 1: 100% Windows PowerShell (Zero Shell Swapping)
 
-#### Option A: Apply Flake Directly from GitHub (Recommended)
-You do not even need to clone the repo or install `git` first. You can rebuild the system directly from GitHub:
+Run these 3 commands directly in **PowerShell**:
 
-```bash
-sudo nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
-```
-
-#### Option B: Clone Locally Using a Temporary Shell
-If you prefer to clone the repository to disk first:
-
-```bash
-# Enter a temporary shell with git available:
-nix-shell -p git
-
-# Clone and switch:
-git clone https://github.com/jackmaders/dotfiles.git ~/dotfiles
-cd ~/dotfiles
-sudo nixos-rebuild switch --flake .#nixos
-exit
-```
-
-This step:
-- Installs `git`, `curl`, `wget`, `vim`, and core utilities.
-- Configures NixOS-WSL and sets `jackw` as the default user in `/etc/wsl.conf`.
-- Creates the `jackw` user account with passwordless `sudo` (`wheel` group).
-- Enables Zsh system-wide and sets it as the default login shell.
-
-### 2. Restart WSL From Windows
-
-WSL only re-reads `/etc/wsl.conf` after a full shutdown. In **Windows PowerShell** or **Command Prompt**:
-
+#### 1. Provision System & User from GitHub
 ```powershell
-wsl.exe --shutdown
+wsl -d NixOS -u root -- nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
 ```
 
-### 3. Launch NixOS (Now as `jackw`)
+#### 2. Restart WSL (to activate `jackw` as default user)
+```powershell
+wsl --shutdown
+```
 
-Launch WSL from PowerShell or Windows Terminal:
+#### 3. Provision Home Manager Profile
+- **For Work (Twinkl):**
+  ```powershell
+  wsl -d NixOS -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
+  ```
+- **For Personal:**
+  ```powershell
+  wsl -d NixOS -u jackw -- nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
+  ```
 
+That's it! Launch WSL:
 ```powershell
 wsl -d NixOS
 ```
+You will enter directly into `jackw` with Zsh, your complete prompt, aliases, and tools ready.
 
-You will automatically log in as **`jackw`** with **Zsh** and `git` already installed!
+---
 
-### 4. Apply Home Manager (No Cloning Required!)
+### Method 2: From Inside the WSL Shell
 
-Inside your new `jackw` session, you can apply your user profile directly from GitHub without cloning:
+If you are already inside the initial `[nixos@nixos:...]$` shell:
 
-#### For Personal Machine:
 ```bash
-nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
+# 1. Apply system configuration
+sudo nixos-rebuild switch --flake "github:jackmaders/dotfiles#nixos"
 ```
 
-#### For Work Machine (Twinkl):
+In Windows PowerShell:
+```powershell
+wsl --shutdown
+wsl -d NixOS
+```
+
+Then inside `jackw`:
 ```bash
+# For Personal:
+nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#personal"
+
+# Or For Work (Twinkl):
 nix run github:nix-community/home-manager -- switch --flake "github:jackmaders/dotfiles#twinkl"
 ```
-
-Once applied, `refresh-config` and `update-config` are immediately available in your shell. (The first time you run `refresh-config` or `update-config`, it will automatically clone the repository to `~/dev/dotfiles` for you!)
 
 ---
 
