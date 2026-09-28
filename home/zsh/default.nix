@@ -15,6 +15,11 @@
         src = pkgs.zsh-fzf-tab;
         file = "share/fzf-tab/fzf-tab.plugin.zsh";
       }
+      {
+          name = "zsh-completions";
+          src = pkgs.zsh-completions;
+          file = "share/zsh-completions/zsh-completions.zsh";
+        }
     ];
 
     history = {
@@ -35,6 +40,9 @@
       cat = "bat -p";
       grep = "rg";
       find = "fd";
+      cd = "z";
+
+      tree = "eza --tree --icons";
     };
 
     initContent = ''

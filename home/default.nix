@@ -19,4 +19,15 @@
   programs.bat.enable = true;
   programs.ripgrep.enable = true;
   programs.fd.enable = true;
+
+  home.sessionVariables = {
+    BUN_INSTALL = "$HOME/.bun";
+    PNPM_HOME = "$HOME/.local/share/pnpm";
+  };
+
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.bun/bin"
+    "$HOME/.local/share/pnpm"
+  ];
 }
