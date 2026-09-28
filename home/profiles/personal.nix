@@ -14,6 +14,8 @@
     email = "jackwmaders@gmail.com";
   };
 
+  nixpkgs.config.allowUnfree = true;
+
   home.packages = with pkgs; [
     inputs.antigravity.packages.${pkgs.stdenv.hostPlatform.system}.antigravity-cli
   ];

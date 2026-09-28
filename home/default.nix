@@ -27,6 +27,7 @@
     dust
     fnm
     just
+    obsidian
     pnpm
     xh
   ];
