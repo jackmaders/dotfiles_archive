@@ -12,22 +12,15 @@ bindkey '^[OB' history-beginning-search-forward
 # Fast Node Manager
 eval "$(fnm env --use-on-cd --shell zsh)"
 
-# Helper function to find dotfiles repo location
+# Helper function to ensure dotfiles exists
 _dotfiles_dir() {
-  local target="$HOME/dev/dotfiles"
-  if [ ! -d "$target" ] && [ ! -d "$HOME/dotfiles" ]; then
-    echo "==> Cloning dotfiles to $target..."
-    mkdir -p "$HOME/dev"
-    git clone https://github.com/jackmaders/dotfiles.git "$target"
+  if [ ! -d "$HOME/dotfiles" ]; then
+    echo "==> Cloning dotfiles..." >&2
+    mkdir -p "$HOME"
+    git clone https://github.com/jackmaders/dotfiles.git "$HOME/dotfiles" >&2
   fi
 
-  if [ -d "$target" ]; then
-    echo "$target"
-  elif [ -d "$HOME/dotfiles" ]; then
-    echo "$HOME/dotfiles"
-  else
-    echo "$target"
-  fi
+  echo "$HOME/dotfiles"
 }
 
 # Apply current local config and home manager state (run from repo root or anywhere)

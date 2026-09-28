@@ -1,11 +1,16 @@
 {
   pkgs,
   inputs,
+  lib,
   ...
 }: {
   home.sessionVariables = {
     DOTFILES_PROFILE = "personal";
   };
+
+  home.activation.createPersonalDirectory = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p $VERBOSE_ARG "$HOME/dev/personal"
+  '';
 
   programs.starship.settings = builtins.fromTOML (builtins.readFile ../starship/personal.toml);
 

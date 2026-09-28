@@ -13,13 +13,11 @@
   home.stateVersion = "24.05";
 
   home.activation = {
-    createDirectories = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    createSharedDirectories = lib.hm.dag.entryAfter ["writeBoundary"] ''
       run mkdir -p $VERBOSE_ARG \
-        $HOME/dev/personal \
-        $HOME/dev/twinkl \
         $HOME/dev/sandbox \
         $HOME/dev/github.com \
-        $HOME/dev/vaults
+        $HOME/vaults
     '';
 
     installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''

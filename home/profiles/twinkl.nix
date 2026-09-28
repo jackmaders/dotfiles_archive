@@ -1,7 +1,15 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}: {
   home.sessionVariables = {
     DOTFILES_PROFILE = "twinkl";
   };
+
+  home.activation.createTwinklDirectory = lib.hm.dag.entryAfter ["writeBoundary"] ''
+    run mkdir -p $VERBOSE_ARG "$HOME/dev/twinkl"
+  '';
 
   programs.starship.settings = builtins.fromTOML (builtins.readFile ../starship/twinkl.toml);
 
