@@ -5,7 +5,7 @@ right_format = "$time"
 disabled = false
 format = "[$time]($style)"
 time_format = "%R"
-style = "#5c6370"
+style = "#dcdfe4"
 
 [directory]
 style = "bold #61afef"
@@ -22,7 +22,3 @@ style = "bold #5c6370"
 [git_status]
 format = "([$all_status$ahead_behind]($style) )"
 style = "bold #e06c75"
-
-[cmd_duration]
-format = "[$duration]($style) "
-style = "bold #e5c07b"
