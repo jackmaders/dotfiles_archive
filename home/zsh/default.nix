@@ -45,8 +45,7 @@
       tree = "eza --tree --icons";
     };
 
-    initContent = ''
-    '';
+    initContent = builtins.readFile ./.zshrc;
   };
 
   programs.eza = {
