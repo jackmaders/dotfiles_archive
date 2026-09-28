@@ -22,6 +22,9 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  # Allow running unpatched dynamically linked executables (npx, fnm downloaded node, vscode servers, etc.)
+  programs.nix-ld.enable = true;
+
   environment.systemPackages = with pkgs; [
     git
     curl
