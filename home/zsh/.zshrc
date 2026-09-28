@@ -9,8 +9,6 @@ bindkey '^[[1;5C' forward-word
 bindkey '^[OA' history-beginning-search-backward
 bindkey '^[OB' history-beginning-search-forward
 
-# Prevent multi line suggestions
-ZSH_AUTOSUGGEST_HISTORY_IGNORE="*$'\n'*"
 
 # Fast Node Manager
 eval "$(fnm env --use-on-cd --shell zsh)"
