@@ -23,7 +23,10 @@
     installHerdr = lib.hm.dag.entryAfter ["writeBoundary"] ''
       if [ ! -x "$HOME/.local/bin/herdr" ]; then
         run mkdir -p "$HOME/.local/bin"
-        run ${pkgs.curl}/bin/curl -fsSL https://herdr.dev/install.sh | run ${pkgs.bash}/bin/bash
+        run ${pkgs.curl}/bin/curl -fsSL https://herdr.dev/install.sh | \
+          run ${pkgs.coreutils}/bin/env \
+            PATH="${pkgs.curl}/bin:${pkgs.bash}/bin:${pkgs.coreutils}/bin:$PATH" \
+            ${pkgs.bash}/bin/bash
       fi
     '';
   };
