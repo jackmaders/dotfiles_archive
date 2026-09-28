@@ -24,6 +24,10 @@
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
+  # NixOS-WSL supplies WSLg's DISPLAY, WAYLAND_DISPLAY and XDG_RUNTIME_DIR.
+  # Leave them untouched so the host-provided GUI session remains available.
+  hardware.graphics.enable = true;
+
   # Keep the .NET runtime discoverable by Godot and C# tooling.
   environment.variables = {
     DOTNET_ROOT = "${pkgs.dotnet-sdk_8}/share/dotnet";
@@ -42,7 +46,11 @@
     csharp-ls
     git
     git-lfs
+    mesa
+    vulkan-loader
     vulkan-tools
+    mesa-demos # glxinfo
+    pciutils
     curl
     wget
     vim
