@@ -22,7 +22,6 @@
   nixpkgs.config.allowUnfree = true;
 
   home.packages = with pkgs; [
-    git-lfs
     inputs.antigravity.packages.${pkgs.stdenv.hostPlatform.system}.antigravity-cli
   ];
 }
