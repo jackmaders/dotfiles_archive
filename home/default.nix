@@ -39,6 +39,8 @@
     obsidian
     pnpm
     xh
+    vim
+    vimgolf
   ];
 
   programs.bat.enable = true;
